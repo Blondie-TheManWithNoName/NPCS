@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+	<title>NPC Creator</title>
+</head>
+<body>
+	<header>
+		<h1 onclick="return location.href = 'http://127.0.0.1:5000'" style="cursor: pointer;">NPC Creator</h1>
+	</header>
+	<h2>Regions</h2>
+	{% with messages = get_flashed_messages() %}
+	    {% if messages %}
+	        {% for message in messages %}
+				<div class="notify"><span id="notifyType">{{message}}</span></div>
+	        {% endfor %}
+	    {% endif %}
+	{% endwith %}
+
+	<form id="form" class="form" method="post" action="#">
+	    	<fieldset style="border-bottom: 4.5px solid #677c90">
+	    		<h4 id="form-title">Create</h4>
+	    	</fieldset>
+	  		<fieldset>
+				<label class="labelTitle" for="nameReg">Region</label>
+	    		<input class="input-text longInput" placeholder="Tatooine" type="text" name="nameReg" required>
+	    	</fieldset>
+			<fieldset>
+	    		<label class="labelTitle" for="weather">Weather</label>
+				<label class="radio labelRadioWeather">
+	  				<input type="radio" name="weather" value="sunny" required>
+					<span class="radioWeather" id="W0Span">&#9728;</span>
+					<br>
+	    			<label class="labelWeather" for="W0Span" style="font-size: 0.6vw;">Sunny</label>
+				</label>
+				<label class="radio labelRadioWeather">
+					<input type="radio" name="weather" value="cloudy" required>
+					<span class="radioWeather" id="W1Span">&#9729;</span>
+					<br>
+	    			<label class="labelWeather" for="W1Span" style="font-size: 0.6vw;">Cloudy</label>
+				</label>
+				<label class="radio labelRadioWeather">
+					<input type="radio" name="weather" value="windy" required>
+					<span class="radioWeather" id="W2Span">&#x1F32A;</span>
+					<br>
+	    			<label class="labelWeather" for="W2Span" style="font-size: 0.6vw;">Windy</label>
+				</label>
+				<label class="radio labelRadioWeather">
+					<input type="radio" name="weather" value="rainy" required>
+					<span class="radioWeather" id="W3Span">&#127783;</span>
+					<br>
+	    			<label class="labelWeather" for="W3Span" style="font-size: 0.6vw;">Rainy</label>
+				</label>
+				<label class="radio labelRadioWeather">
+					<input type="radio" name="weather" value="snowy" required>
+					<span class="radioWeather" id="W4Span">&#10052;</span>
+					<br>
+	    			<label class="labelWeather" for="W4Span" style="font-size: 0.6vw;">Snowy</label>
+				</label>
+				<label class="radio labelRadioWeather">
+					<input type="radio" name="weather" value="foggy" required>
+					<span class="radioWeather" id="W5Span">&#127787;</span>
+					<br>
+	    			<label class="labelWeather" for="W5Span" style="font-size: 0.6vw;">Foggy</label>
+				</label>
+	    	</fieldset>
+			<fieldset>
+				<button class="button" name="submit" type="submit" value="create">Create</button>
+				<button class="button" name="button_r" type="reset" id="button_r" style="border-top: 0; border-bottom: 0;">Restore</button>
+			</fieldset>
+		</form>
+	<table>
+		<thead>	
+			<tr>
+				<th></th>
+			    <th>Hair File</th>
+			    <th>weather</th>
+			    <th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>		
+			{% for item in data %}
+			<tr>
+<!-- 				<form action="?name={{item[0]}}&sex={{item[1]}}&weather={{item[2]}}&height={{item[3]}}&health={{item[4]}}&id={{item[5]}}&namereg={{item[6]}}" method="post"> -->
+				<td>{{loop.index}}</td>
+			    <td onclick="getDataRegions('{{item[0]}}', '{{item[1]}}');" style="cursor: pointer;">{{item[0]}}</td>
+			    <td onclick="getDataRegions('{{item[0]}}', '{{item[1]}}');" style="cursor: pointer;">{{item[1]}}</td>
+				<!-- </form> -->
+			    <td class="tdDeleteBtn"> <form action="?nameReg={{item[0]}}" method="post">
+<button class="deleteBtn Btn" type="submit" name="submit" value="delete" onClick="return confirm('Are you sure you want to delete?')">&#10006</button> </form></td>
+			    <!-- <td class="tdEditBtn"> <button class="editBtn Btn" onclick="deleteData(${item[5]}, ${item[6]}, 'npcs')" style="transform: rotate(90deg);">&#9998</button></td> -->
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script>
+</body>
+</html>

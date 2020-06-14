@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+	<title>NPC Creator</title>
+</head>
+<body>
+	<header>
+		<h1 onclick="return location.href = 'http://127.0.0.1:5000'" style="cursor: pointer;">NPC Creator</h1>
+	</header>
+	<h2>Faces</h2>
+	{% with messages = get_flashed_messages() %}
+	    {% if messages %}
+	        {% for message in messages %}
+				<div class="notify"><span id="notifyType">{{message}}</span></div>
+	        {% endfor %}
+	    {% endif %}
+	{% endwith %}
+
+	<form id="form" class="form" method="post" action="#">
+	    	<fieldset style="border-bottom: 4.5px solid #677c90">
+	    		<h4 id="form-title">Create</h4>
+	    	</fieldset>
+	  		<fieldset>
+				<label class="labelTitle" for="id">Id</label>
+	    		<input class="input-text shortInput" placeholder="2187" id="inputId" type="text" name="id" required>
+	    	</fieldset>
+	    	<fieldset>
+				<label class="labelTitle" for="mouthFile">Mouth</label>
+	    		<input class="input-text shortInput" placeholder="mouthFile_0" type="text" name="mouthFile" required>
+	    	</fieldset>
+	    	<fieldset>
+				<label class="labelTitle" for="eyesFile">Eyes</label>
+	    		<input class="input-text shortInput" placeholder="eyesFile_0" type="text" name="eyesFile" required>
+	    	</fieldset>
+	    	<fieldset>
+				<label class="labelTitle" for="noseFile">Nose</label>
+	    		<input class="input-text shortInput" placeholder="noseFile_0" type="text" name="noseFile" required>
+	    	</fieldset>
+	    	<fieldset>
+				<label class="labelTitle" for="earsFile">Ears</label>
+	    		<input class="input-text shortInput" placeholder="earsFile_0" type="text" name="earsFile" required>
+	    	</fieldset>
+	    	<fieldset>
+				<label class="labelTitle" for="hairFile">Hair</label>
+	    		<input class="input-text shortInput" placeholder="hairFile_0" type="text" name="hairFile" required>
+	    	</fieldset>
+	    	<fieldset>
+				<label class="labelTitle" for="color">Color</label>
+	    		<input class="input-text shortInput" placeholder="10dabd" id="inputId" type="text" name="color" required>
+	    	</fieldset>
+			<fieldset>
+				<button class="button" name="submit" type="submit" value="create">Create</button>
+				<button class="button" name="button_r" type="reset" id="button_r" style="border-top: 0; border-bottom: 0;">Restore</button>
+			</fieldset>
+
+		</form>
+	<table>
+		<thead>	
+			<tr>
+				<th></th>
+			    <th>Id</th>
+			    <th>Mouth File</th>
+			    <th>Eyes File</th>
+			    <th>Nose File</th>
+			    <th>Ears filename</th>
+			    <th>Hair File</th>
+			    <th>Color</th>
+			    <th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>		
+			{% for item in data %}
+			<tr>
+<!-- 				<form action="?name={{item[0]}}&sex={{item[1]}}&color={{item[2]}}&height={{item[3]}}&health={{item[4]}}&id={{item[5]}}&namereg={{item[6]}}" method="post"> -->
+				<td>{{loop.index}}</td>
+			    <td onclick="getDataFaces('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[0]}}</td>
+			    <td onclick="getDataFaces('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[1]}}</td>
+			    <td onclick="getDataFaces('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[2]}}</td>
+			    <td onclick="getDataFaces('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[3]}}</td>
+			    <td onclick="getDataFaces('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[4]}}</td>
+			    <td onclick="getDataFaces('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[5]}}</td>
+			    <td onclick="getDataFaces('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[6]}}</td>
+				<!-- </form> -->
+			    <td class="tdDeleteBtn"> <form action="?id={{item[0]}}" method="post">
+<button class="deleteBtn Btn" type="submit" name="submit" value="delete" onClick="return confirm('Are you sure you want to delete?')">&#10006</button> </form></td>
+			    <!-- <td class="tdEditBtn"> <button class="editBtn Btn" onclick="deleteData(${item[5]}, ${item[6]}, 'npcs')" style="transform: rotate(90deg);">&#9998</button></td> -->
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+	<title>NPC Creator</title>
+</head>
+<body>
+	<header>
+		<h1 onclick="return location.href = 'http://127.0.0.1:5000'" style="cursor: pointer;">NPC Creator</h1>
+	</header>
+	<h2>NPCs</h2>
+	{% with messages = get_flashed_messages() %}
+	    {% if messages %}
+	        {% for message in messages %}
+				<div class="notify"><span id="notifyType">{{message}}</span></div>
+	        {% endfor %}
+	    {% endif %}
+	{% endwith %}
+
+	<form id="form" class="form" method="post" action="#">
+	    	<fieldset style="border-bottom: 4.5px solid #677c90">
+	    		<h4 id="form-title">Create</h4>
+	    	</fieldset>
+	    	<fieldset style="margin-top: 2vw;">
+	    		<label class="labelTitle" for="name">Name</label>
+	    		<input class="input-text largeInput" placeholder="Obi Wan Kenobi" type="text" name="name" style="font-family: Roboto-Thin;" required>
+	    	</fieldset>
+	    	<fieldset>
+	    		<label class="labelTitle" for="sex">Sex</label>
+				<label class="radio">
+	  				<input type="radio" name="sex" value="0" required>
+					<span id="MSpan">M</span>
+				</label>
+				<label class="radio">
+					<input type="radio" name="sex" value="1" required>
+					<span id="FSpan">F</span>
+				</label> 
+	    	</fieldset>
+			<fieldset>
+	    		<label class="labelTitle" for="name">Color</label>
+				<label class="radio">
+	  				<input type="radio" name="color" value="ffdbac" required>
+					<span class="radioColor" id="C0Span"></span>
+					<br>
+	    			<label class="labelColor" for="C0Span" style="font-size: 0.6vw;">#ffdbac</label>
+				</label>
+				<label class="radio">
+					<input type="radio" name="color" value="f1c27d" required>
+					<span class="radioColor" id="C1Span"></span>
+					<br>
+	    			<label class="labelColor" for="C1Span" style="font-size: 0.6vw;">#f1c27d</label>
+				</label>
+				<label class="radio">
+					<input type="radio" name="color" value="e0ac69" required>
+					<span class="radioColor" id="C2Span"></span>
+					<br>
+	    			<label class="labelColor" for="C2Span" style="font-size: 0.6vw;">#e0ac69</label>
+				</label>
+				<label class="radio">
+					<input type="radio" name="color" value="c68642" required>
+					<span class="radioColor" id="C3Span"></span>
+					<br>
+	    			<label class="labelColor" for="C3Span" style="font-size: 0.6vw;">#c68642</label>
+				</label>
+				<label class="radio">
+					<input type="radio" name="color" value="8d5524" required>
+					<span class="radioColor" id="C4Span"></span>
+					<br>
+	    			<label class="labelColor" for="C4Span" style="font-size: 0.6vw;">#8d5524</label>
+				</label>
+	    	</fieldset>
+	  		<fieldset>
+				<label class="labelTitle" for="height">Height</label>
+	    		<input class="input-text shortInput" placeholder="1.78" id="inputHeight" type="text" name="height"style="font-family: Roboto-Thin;" required>
+	    	</fieldset>
+	    	<fieldset id="SDField">
+				<label class="labelTitle" for="health">Health: <span id="slider"></span></label>
+	    		<input type="range" name="health" min="1" max="100" value="100" class="slider" id="healthRange">
+	    	</fieldset>
+	  		<fieldset>
+				<label class="labelTitle" for="id">Id</label>
+	    		<input class="input-text shortInput" placeholder="2187" id="inputId" type="text" name="id" style="font-family: Roboto-Thin;" required>
+	    	</fieldset>
+	    	<fieldset>
+				<label class="labelTitle" for="namereg">NameReg</label>
+	    		<input class="input-text largeInput" placeholder="Tatooine" type="text" name="namereg" style="font-family: Roboto-Thin;" required>
+	    	</fieldset>
+			<fieldset>
+				<button class="button" name="submit" type="submit" value="create">Create</button>
+				<button class="button" name="button_r" type="reset" id="button_r" style="border-top: 0; border-bottom: 0;">Restore</button>
+			</fieldset>
+		</form>
+	<table>
+		<thead>	
+			<tr>
+				<th></th>
+			    <th>Name</th>
+			    <th>Sex</th>
+			    <th>Color</th>
+			    <th>Height</th>
+			    <th>Health</th>
+			    <th>Id</th>
+			    <th>Namereg</th>
+			    <th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>		
+			{% for item in data %}
+			<tr>
+<!-- 				<form action="?name={{item[0]}}&sex={{item[1]}}&color={{item[2]}}&height={{item[3]}}&health={{item[4]}}&id={{item[5]}}&namereg={{item[6]}}" method="post"> -->
+				<td>{{loop.index}}</td>
+			    <td onclick="getDataNpcs('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[0]}}</td>
+			    <td onclick="getDataNpcs('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[1]}}</td>
+			    <td onclick="getDataNpcs('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[2]}}</td>
+			    <td onclick="getDataNpcs('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[3]}}</td>
+			    <td onclick="getDataNpcs('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[4]}}</td>
+			    <td onclick="getDataNpcs('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[5]}}</td>
+			    <td onclick="getDataNpcs('{{item[0]}}', '{{item[1]}}', '{{item[2]}}', '{{item[3]}}', '{{item[4]}}', '{{item[5]}}', '{{item[6]}}');" style="cursor: pointer;">{{item[6]}}</td>
+				<!-- </form> -->
+			    <td class="tdDeleteBtn"> <form action="?id={{item[5]}}&namereg={{item[6]}}" method="post">
+<button class="deleteBtn Btn" type="submit" name="submit" value="delete" onClick="return confirm('Are you sure you want to delete?')">&#10006</button> </form></td>
+			    <!-- <td class="tdEditBtn"> <button class="editBtn Btn" onclick="deleteData(${item[5]}, ${item[6]}, 'npcs')" style="transform: rotate(90deg);">&#9998</button></td> -->
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script>
+</body>
+</html>
