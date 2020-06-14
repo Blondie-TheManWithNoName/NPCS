@@ -18,43 +18,56 @@
 	{% endwith %}
 
 	<form id="form" class="form" method="post" action="#">
-	    	<fieldset style="border-bottom: 4.5px solid #677c90">
-	    		<h4 id="form-title">Create</h4>
-	    	</fieldset>
-	  		<fieldset>
-				<label class="labelTitle" for="id">Id</label>
-	    		<input class="input-text shortInput" placeholder="2187" id="inputId" type="text" name="id" required>
-	    	</fieldset>
-	    	<fieldset>
-				<label class="labelTitle" for="mouthFile">Mouth</label>
-	    		<input class="input-text shortInput" placeholder="mouthFile_0" type="text" name="mouthFile" required>
-	    	</fieldset>
-	    	<fieldset>
-				<label class="labelTitle" for="eyesFile">Eyes</label>
-	    		<input class="input-text shortInput" placeholder="eyesFile_0" type="text" name="eyesFile" required>
-	    	</fieldset>
-	    	<fieldset>
-				<label class="labelTitle" for="noseFile">Nose</label>
-	    		<input class="input-text shortInput" placeholder="noseFile_0" type="text" name="noseFile" required>
-	    	</fieldset>
-	    	<fieldset>
-				<label class="labelTitle" for="earsFile">Ears</label>
-	    		<input class="input-text shortInput" placeholder="earsFile_0" type="text" name="earsFile" required>
-	    	</fieldset>
-	    	<fieldset>
-				<label class="labelTitle" for="hairFile">Hair</label>
-	    		<input class="input-text shortInput" placeholder="hairFile_0" type="text" name="hairFile" required>
-	    	</fieldset>
-	    	<fieldset>
-				<label class="labelTitle" for="color">Color</label>
-	    		<input class="input-text shortInput" placeholder="10dabd" id="inputId" type="text" name="color" required>
-	    	</fieldset>
-			<fieldset>
-				<button class="button" name="submit" type="submit" value="create">Create</button>
-				<button class="button" name="button_r" type="reset" id="button_r" style="border-top: 0; border-bottom: 0;">Restore</button>
-			</fieldset>
-
-		</form>
+    	<fieldset style="border-bottom: 4.5px solid #677c90">
+    		<h4 id="form-title">Create</h4>
+    	</fieldset>
+  		<fieldset>
+			<label class="labelTitle" for="id">Id</label>
+    		<input class="input-text shortInput" placeholder="2187" id="inputId" type="text" name="id" required>
+    	</fieldset>
+    	<fieldset>
+			<label class="labelTitle" for="mouthFile">Mouth</label>
+    		<input class="input-text shortInput" placeholder="mouthFile_0" type="text" name="mouthFile" required>
+    	</fieldset>
+    	<fieldset>
+			<label class="labelTitle" for="eyesFile">Eyes</label>
+    		<input class="input-text shortInput" placeholder="eyesFile_0" type="text" name="eyesFile" required>
+    	</fieldset>
+    	<fieldset>
+			<label class="labelTitle" for="noseFile">Nose</label>
+    		<input class="input-text shortInput" placeholder="noseFile_0" type="text" name="noseFile" required>
+    	</fieldset>
+    	<fieldset>
+			<label class="labelTitle" for="earsFile">Ears</label>
+    		<input class="input-text shortInput" placeholder="earsFile_0" type="text" name="earsFile" required>
+    	</fieldset>
+    	<fieldset>
+			<label class="labelTitle" for="hairFile">Hair</label>
+    		<input class="input-text shortInput" placeholder="hairFile_0" type="text" name="hairFile" required>
+    	</fieldset>
+    	<fieldset>
+			<label class="labelTitle" for="color">Color</label>
+    		<input class="input-text shortInput" placeholder="10dabd" id="inputId" type="text" name="color" required>
+    	</fieldset>
+		<fieldset>
+			<button class="button" name="submit" type="submit" value="create">Create</button>
+			<button class="button" name="button_r" type="reset" id="button_r" style="border-top: 0; border-bottom: 0;">Restore</button>
+		</fieldset>
+	</form>
+	<form id="form" class="form" method="post" action="#">
+    	<fieldset style="border-bottom: 4.5px solid #677c90">
+    		<h4 id="form-title">Search</h4>
+    	</fieldset>
+    	<fieldset style="margin-top: 2vw;">
+    		<label class="labelTitle" for="search">Condition</label>
+    		<input class="input-text searchInput" placeholder="id<10000 AND mouthFile='mouthFile_0'" type="text" name="search" style="font-family: Roboto-Thin;">
+    	</fieldset>
+		<fieldset>
+			<button class="button" name="submit" type="submit" value="search">Search</button>
+			<button class="button" name="button_r_S" type="reset" id="button_r_S" style="border-top: 0; border-bottom: 0;">Restore</button>
+			<button class="button" name="submit" type="submit" value="showAll" style="border-right: 0; border-left: 0; width: 10vw;">Show all rows</button>
+		</fieldset>
+	</form>
 	<table>
 		<thead>	
 			<tr>
@@ -91,5 +104,6 @@
 	</table>
 
 	<script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script>
+	<footer></footer>
 </body>
 </html>

@@ -95,6 +95,18 @@ function getDataRegions (item0, item1) {
 	updateMode();
 }
 
+function getDataIndexes (item0, item1, item2, item3, item4) {
+	document.getElementById("form").action = "?name=" + item0;
+	window.scrollTo(0, 725);
+	form.name.value = item0;
+	form.attributes.value = item1;
+	form.table.value = item2;
+	form.method.value = item3;
+	form.columns.value = item4;
+	
+	updateMode();
+}
+
 
 function updateMode ()
 {
@@ -102,7 +114,6 @@ function updateMode ()
 	form.submit.textContent = "Update";
 	document.getElementById("form-title").textContent = "Update";
 	form.button_r.textContent = "Cancel";
-
 }
 
 
@@ -125,7 +136,7 @@ if (document.getElementById("notifyType") != null)
 	{		
 		setTimeout(function(){
 			document.getElementsByClassName("notify")[0].classList.add("inactive");
-		},10000);	
+		},6000);	
 	}
 	else
 	{

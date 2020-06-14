@@ -8,10 +8,50 @@
 	<header>
 		<h1>NPC Creator</h1>
 	</header>
+	<button class="buttonIndexes" onclick="return location.href = 'http://127.0.0.1:5000/indexes'">Indexes</button>
 	<button class="buttonIndex" onclick="return location.href = 'http://127.0.0.1:5000/hairs'">Hairs</button>
 	<button class="buttonIndex" onclick="return location.href = 'http://127.0.0.1:5000/faces'">Faces</button>
 	<button class="buttonIndex" onclick="return location.href = 'http://127.0.0.1:5000/npcs'">NPCs</button>
 	<button class="buttonIndex" onclick="return location.href = 'http://127.0.0.1:5000/regions'">Regions</button>
-	<!-- <script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script> -->
+	<form id="form" class="form" method="post" action="" style="margin-top: 5vw;">
+    	<fieldset style="border-bottom: 4.5px solid #677c90;">
+    		<h4 id="form-title">Query</h4>
+    	</fieldset>
+    	<fieldset style="margin-top: 2vw;">
+    		<label class="labelTitle" for="query">Query</label>
+    		<input class="input-text searchInput" placeholder="SELECT * FROM npcs;" type="text" name="query" style="font-family: Roboto-Thin;">
+    	</fieldset>
+		<fieldset>
+			<button class="button" name="submit" type="submit" value="query">Execute</button>
+			<button class="button" name="button_r_S" type="reset" id="button_r_S" style="border-top: 0; border-bottom: 0;">Restore</button>
+		</fieldset>
+	</form>
+	<table>
+<!-- 		<thead>	
+			<tr>
+					<th></th>
+				    <th>Name</th>
+				    <th>Sex</th>
+				    <th>Color</th>
+				    <th>Height</th>
+				    <th>Health</th>
+				    <th>Id</th>
+				    <th>Namereg</th>
+				    <th>Delete</th>
+			</tr>
+		</thead> -->
+		<tbody>
+	    {% if data %}	
+			{% for item in data %}
+			<tr>
+				<td>{{loop.index}}</td>
+				{% for item1 in item %}
+			    	<td>{{item1}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+	    {% endif %}
+		</tbody>
+	</table>
 </body>
 </html>

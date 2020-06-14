@@ -18,22 +18,35 @@
 	{% endwith %}
 
 	<form id="form" class="form" method="post" action="#">
+    	<fieldset style="border-bottom: 4.5px solid #677c90">
+    		<h4 id="form-title">Create</h4>
+    	</fieldset>
+  			    	<fieldset>
+			<label class="labelTitle" for="hairFile">Hair</label>
+    		<input class="input-text shortInput" placeholder="hairFile_0" type="text" name="hairFile" required>
+    	</fieldset>
+    	<fieldset>
+			<label class="labelTitle" for="color">Color</label>
+    		<input class="input-text shortInput" placeholder="10dabd" id="inputId" type="text" name="color" required>
+    	</fieldset>
+		<fieldset>
+			<button class="button" name="submit" type="submit" value="create">Create</button>
+			<button class="button" name="button_r" type="reset" id="button_r" style="border-top: 0; border-bottom: 0;">Restore</button>
+		</fieldset>
+	</form>
+	<form id="form" class="form" method="post" action="#">
 	    	<fieldset style="border-bottom: 4.5px solid #677c90">
-	    		<h4 id="form-title">Create</h4>
+	    		<h4 id="form-title">Search</h4>
 	    	</fieldset>
-	  			    	<fieldset>
-				<label class="labelTitle" for="hairFile">Hair</label>
-	    		<input class="input-text shortInput" placeholder="hairFile_0" type="text" name="hairFile" required>
-	    	</fieldset>
-	    	<fieldset>
-				<label class="labelTitle" for="color">Color</label>
-	    		<input class="input-text shortInput" placeholder="10dabd" id="inputId" type="text" name="color" required>
+	    	<fieldset style="margin-top: 2vw;">
+	    		<label class="labelTitle" for="search">Condition</label>
+	    		<input class="input-text searchInput" placeholder="color='10dabd'" type="text" name="search" style="font-family: Roboto-Thin;">
 	    	</fieldset>
 			<fieldset>
-				<button class="button" name="submit" type="submit" value="create">Create</button>
-				<button class="button" name="button_r" type="reset" id="button_r" style="border-top: 0; border-bottom: 0;">Restore</button>
+				<button class="button" name="submit" type="submit" value="search">Search</button>
+				<button class="button" name="button_r_S" type="reset" id="button_r_S" style="border-top: 0; border-bottom: 0;">Restore</button>
+				<button class="button" name="submit" type="submit" value="showAll" style="border-right: 0; border-left: 0; width: 10vw;">Show all rows</button>
 			</fieldset>
-
 		</form>
 	<table>
 		<thead>	
@@ -47,19 +60,17 @@
 		<tbody>		
 			{% for item in data %}
 			<tr>
-<!-- 				<form action="?name={{item[0]}}&sex={{item[1]}}&color={{item[2]}}&height={{item[3]}}&health={{item[4]}}&id={{item[5]}}&namereg={{item[6]}}" method="post"> -->
 				<td>{{loop.index}}</td>
 			    <td onclick="getDataHairs('{{item[0]}}', '{{item[1]}}');" style="cursor: pointer;">{{item[0]}}</td>
 			    <td onclick="getDataHairs('{{item[0]}}', '{{item[1]}}');" style="cursor: pointer;">{{item[1]}}</td>
-				<!-- </form> -->
 			    <td class="tdDeleteBtn"> <form action="?hairFile={{item[0]}}&color={{item[1]}}" method="post">
 <button class="deleteBtn Btn" type="submit" name="submit" value="delete" onClick="return confirm('Are you sure you want to delete?')">&#10006</button> </form></td>
-			    <!-- <td class="tdEditBtn"> <button class="editBtn Btn" onclick="deleteData(${item[5]}, ${item[6]}, 'npcs')" style="transform: rotate(90deg);">&#9998</button></td> -->
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 
 	<script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script>
+	<footer></footer>
 </body>
 </html>

@@ -8,15 +8,110 @@ def do_query(c, q, n=''):
     c.execute(q, n)
 
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+def search(table_name):
+    if request.form["search"] != '':
+        try:
+            c.execute("SELECT * FROM %s WHERE %s;" % (table_name, request.form["search"]))
+            data = c.fetchall()
+            flash("Successfully searched.")
+            return render_template("table_" + table_name + ".html", data=data)
+        except Exception as e:
+            conn.rollback()
+            errorMessage(e)
 
+    return redirect(request.path,code=302)
+
+def errorMessage(e):
+    if "»" in str(e):
+        flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
+    elif "LINE" in str(e):
+        flash("An exception occurred: " + str(e)[0: str(e).index("LINE")])
+    else:
+        flash("An exception occurred: " + str(e))
+    
+    # print("An exception occurred:", e)
+
+
+def getIndexInfo(query):
+    _list = []
+    for x in query:
+        if "UNIQUE" in x[4]:
+            _tuple = (x[4][x[4].index("INDEX") + 6:x[4].index("ON")], x[4][x[4].index("UNIQUE"):x[4].index("UNIQUE") + 6], x[4][x[4].index(".") + 1:x[4].index("USING")], x[4][x[4].index("USING") + 6:x[4].index("(") - 1], x[4][x[4].index("(") + 1:x[4].index(")")])
+        else:
+            _tuple = (x[4][x[4].index("INDEX") + 6:x[4].index("ON")], "", x[4][x[4].index(".") + 1:x[4].index("USING")], x[4][x[4].index("USING") + 6:x[4].index("(") - 1], x[4][x[4].index("(") + 1:x[4].index(")")])
+
+        _list.append(_tuple)
+    return _list
+
+@app.route("/", methods=["POST", "GET"])
+def home():
+    data = None
+    if request.method == "POST":
+        c.execute(request.form["query"])
+        data = c.fetchall()
+    return render_template("index.html", data=data)
+
+
+@app.route("/indexes", methods=["POST", "GET"])
+def indexes():
+    if request.method == "POST":
+
+        # DELETE
+        if request.form["submit"] == "delete":
+            try:
+                c.execute("DROP INDEX %s;" % (request.args.get('name')))
+                conn.commit()
+                flash("Successfully deleted.")
+            except Exception as e:
+                conn.rollback()
+                errorMessage(e)
+
+        # UPDATE
+        elif request.form["submit"] == "update":
+            try:
+                c.execute("ALTER INDEX %s RENAME TO %s;" % (request.args.get('name'), request.form["name"]))    
+                conn.commit()
+                flash("Successfully updated.")
+            except Exception as e:
+                conn.rollback()
+                errorMessage(e)
+       
+        # INSERT
+        else:
+            try:
+                if request.form["method"] != "":
+                    if "attributes1" in request.form:
+                        c.execute("CREATE %s INDEX %s ON %s USING %s (%s);" % (request.form["attributes1"], request.form["name"], request.form["table"], request.form["method"], request.form["columns"]))
+                    else:
+                        c.execute("CREATE INDEX %s ON %s USING %s (%s);" % (request.form["name"], request.form["table"], request.form["method"], request.form["columns"]))
+                else:
+                    if "attributes1" in request.form:
+                        print("HEY00")
+                        c.execute("CREATE %s INDEX %s ON %s (%s);" % (request.form["attributes1"], request.form["name"], request.form["table"], request.form["columns"]))   
+                    else:
+                        print("HEY01")
+                        c.execute("CREATE INDEX %s ON %s (%s);" % (request.form["name"], request.form["table"], request.form["columns"]))   
+                
+                if "attributes0" in request.form:
+                    print("HEY")
+                    c.execute("CLUSTER %s USING %s;" % (request.form["table"], request.form["name"]))
+
+                conn.commit()
+                flash("Successfully inserted.")
+            except Exception as e:
+                conn.rollback()
+                errorMessage(e)
+
+        return redirect(request.path,code=302)
+
+    c.execute("SELECT * FROM pg_indexes WHERE tablename='hairs' OR tablename='faces' OR tablename='npcs' OR tablename='regions' ORDER BY tablename")
+    data = c.fetchall()
+    return render_template("table_indexes.html", data=getIndexInfo(data))
 
 
 @app.route("/hairs", methods=["POST", "GET"])
 def hairs():
-    if request.method == "POST":
+    if request.method == "POST" and request.form["submit"] != "showAll":
 
         # DELETE
         if request.form["submit"] == "delete":
@@ -24,9 +119,9 @@ def hairs():
                 c.execute("DELETE FROM hairs WHERE hairFile='%s' AND color='%s';" % (request.args.get('hairFile'), request.args.get('color')))
                 conn.commit()
                 flash("Successfully deleted.")
-            except psycopg2.IntegrityError as e:
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
+            except Exception as e:
+                conn.rollback()
+                errorMessage(e)
 
         # UPDATE
         elif request.form["submit"] == "update":
@@ -36,21 +131,23 @@ def hairs():
                 flash("Successfully updated.")
             except Exception as e:
                 conn.rollback()
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
+                errorMessage(e)
        
+       # SELECT
+        elif request.form["submit"] == "search":
+            return search("hairs")
+
         # INSERT
         else:
             try:
-                c.execute("INSERT INTO faces VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');" % (request.form["id"], request.form["mouthFile"], request.form["eyesFile"], request.form["noseFile"], request.form["earsFile"], request.form["hairFile"], request.form["color"]))   
+                c.execute("INSERT INTO hairs VALUES ('%s', '%s');" % (request.form["hairFile"], request.form["color"]))   
                 conn.commit()
                 flash("Successfully inserted.")
-            except psycopg2.IntegrityError as e:
+            except Exception as e:
                 conn.rollback()
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
+                errorMessage(e)
 
-        return redirect(request.path,code=302)
+        return redirect(request.path, code=302)
 
     c.execute("SELECT * FROM hairs ORDER BY color")
     data = c.fetchall()
@@ -59,7 +156,7 @@ def hairs():
 
 @app.route("/faces", methods=["POST", "GET"])
 def faces():
-    if request.method == "POST":
+    if request.method == "POST" and request.form["submit"] != "showAll":
 
         # DELETE
         if request.form["submit"] == "delete":
@@ -67,9 +164,9 @@ def faces():
                 c.execute("DELETE FROM faces WHERE id='%s';" % (request.args.get('id')))
                 conn.commit()
                 flash("Successfully deleted.")
-            except psycopg2.IntegrityError as e:
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
+            except Exception as e:
+                conn.rollback()
+                errorMessage(e)
         
         # UPDATE
         elif request.form["submit"] == "update":
@@ -80,9 +177,12 @@ def faces():
                 flash("Successfully updated.")
             except Exception as e:
                 conn.rollback()
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
+                errorMessage(e)
        
+        # SELECT
+        elif request.form["submit"] == "search":
+            return search("faces")
+
         # INSERT
         else:
             try:
@@ -90,10 +190,9 @@ def faces():
                 c.execute("INSERT INTO faces VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');" % (request.form["id"], request.form["mouthFile"], request.form["eyesFile"], request.form["noseFile"], request.form["earsFile"], request.form["hairFile"], request.form["color"]))   
                 conn.commit()
                 flash("Successfully inserted.")
-            except psycopg2.IntegrityError as e:
+            except Exception as e:
                 conn.rollback()
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
+                errorMessage(e)
         
         return redirect(request.path, code=302)
 
@@ -105,7 +204,8 @@ def faces():
 
 @app.route("/npcs", methods=["POST", "GET"])
 def npcs():
-    if request.method == "POST":
+    print("START")
+    if request.method == "POST" and request.form["submit"] != "showAll":
 
         # DELETE        
         if request.form["submit"] == "delete":
@@ -113,34 +213,34 @@ def npcs():
                 c.execute("DELETE FROM npcs WHERE id='%s' AND namereg='%s';" % (request.args.get('id'), request.args.get('namereg')))
                 conn.commit()
                 flash("Successfully deleted.")
-            except psycopg2.IntegrityError as e:
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
+            except Exception as e:
+                conn.rollback()
+                errorMessage(e)
 
         # UPDATE
         elif request.form["submit"] == "update":
             try:
-                print("UPDATE")
-                print("REQUEST:", request.args.get('id'))
-                print("REQUEST:", request.args.get('namereg'))
                 c.execute("UPDATE npcs SET name='%s', sex='%s', color='%s', height='%s', health='%s', id='%s', namereg='%s' WHERE id='%s' AND namereg='%s';" % (request.form["name"], request.form["sex"], request.form["color"], request.form["height"], request.form["health"], request.form["id"], request.form["namereg"], request.args.get('id'), request.args.get('namereg')))    
                 conn.commit()
                 flash("Successfully updated.")
             except Exception as e:
                 conn.rollback()
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
-        
+                errorMessage(e)
+
+        # SELECT
+        elif request.form["submit"] == "search":
+            return search("npcs")
+
         # INSERT        
         else:
             try:
                 c.execute("INSERT INTO npcs VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');" % (request.form["name"], request.form["sex"], request.form["color"], request.form["height"], request.form["health"], request.form["id"], request.form["namereg"]))
                 conn.commit()
                 flash("Successfully inserted.")
-            except psycopg2.IntegrityError as e:
+            except Exception as e:
                 conn.rollback()
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
+                errorMessage(e)
+
         
         return redirect(request.path,code=302)
 
@@ -152,7 +252,7 @@ def npcs():
 
 @app.route("/regions", methods=["POST", "GET"])
 def regions():
-    if request.method == "POST":
+    if request.method == "POST" and request.form["submit"] != "showAll":
        
        # DELETE
         if request.form["submit"] == "delete":
@@ -162,8 +262,7 @@ def regions():
                 flash("Successfully deleted.")
             except Exception as e:
                 conn.rollback()
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
+                errorMessage(e)
         
        # UPDATE
         elif request.form["submit"] == "update":
@@ -173,19 +272,21 @@ def regions():
                 flash("Successfully updated.")
             except Exception as e:
                 conn.rollback()
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
-       
+                errorMessage(e)
+               
+        # SELECT
+        elif request.form["submit"] == "search":
+            return search("regions")
+
        # CREATE
         else:
             try:
                 c.execute("INSERT INTO regions VALUES ('%s', '%s');" % (request.form["nameReg"], request.form["weather"]))   
                 conn.commit()
                 flash("Successfully inserted.")
-            except psycopg2.IntegrityError as e:
+            except Exception as e:
                 conn.rollback()
-                flash("An exception occurred: " + str(e)[0: str(e).index("»") + 1])
-                # print("An exception occurred:", e)
+                errorMessage(e)
         
         return redirect(request.path,code=302)
 
