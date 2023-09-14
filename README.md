@@ -32,8 +32,5 @@ A player has a unique name, life as do the NPCs and inventory as stated above.
 
 
 ## **UML** Diagram of the project
-![Copy of proj drawio (1)](https://github.com/Blondie-TheManWithNoName/NPCS/assets/58909117/b4a52617-9eed-467e-9e5c-00288b82b12e)
-
-
-## **UML** Diagram implemented
+Implemented part in red
 ![Copy of proj drawio (2)](https://github.com/Blondie-TheManWithNoName/NPCS/assets/58909117/3251e2c2-5db7-4d93-afe1-bee708ad5252)
