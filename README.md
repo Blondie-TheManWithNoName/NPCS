@@ -1,7 +1,7 @@
 # NPCS
-Webpage database editor with using **Python** and **PostgresSQL**.
+Webpage database editor using **Python** and **PostgresSQL**.
 
-To communicate them I used **Psycopg2** library and for the communication between **Python** and the website I used the **Flask** library.
+To communicate **Python** and **PostgresSQL** I used **Psycopg2** Library and for the communication between **Python** and the **Website** I used the **Flask** Library.
 
 ## Project Idea
 
