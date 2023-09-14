@@ -1,7 +1,6 @@
 # NPCS
-
-I made a webpage and used postgresql as a database. To communicate with postgres I used python with the psycopg2 library
-and for the communication between python and the web page I used the flask library.
+Webpage database editor with using **Python** and **PostgresSQL**. To communicate them I used **Psycopg2** library
+and for the communication between **Python** and the website I used the **Flask** library.
 
 ## Project Idea
 
