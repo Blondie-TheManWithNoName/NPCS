@@ -1,5 +1,9 @@
 # NPCS
-Webpage database editor using **Python** and **PostgresSQL**.
+Webpage Database Editor using **Python 3.5** and **PostgresSQL** where you can:
+
+- Create, define, modify and delete tables
+- Create, define, and delete indexes
+- Browse, edit, add, and delete records
 
 To communicate **Python** and **PostgresSQL** I used **Psycopg2** Library and for the communication between **Python** and the **Website** I used the **Flask** Library.
 
