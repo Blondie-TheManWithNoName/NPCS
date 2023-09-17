@@ -37,4 +37,36 @@ A player has a unique name, life as do the NPCs and inventory as stated above.
 
 ## **UML** Diagram of the project
 Implemented part in red
+
 ![Copy of proj drawio (2)](https://github.com/Blondie-TheManWithNoName/NPCS/assets/58909117/3251e2c2-5db7-4d93-afe1-bee708ad5252)
+
+
+<br></br>
+## Index of website
+![index](https://github.com/Blondie-TheManWithNoName/NPCS/assets/58909117/5d134161-fb81-4ddc-90f8-6207e82be97b)
+
+
+## Webpage to read, create, update and delete Hairs from the hairs table.
+![hairs](https://github.com/Blondie-TheManWithNoName/NPCS/assets/58909117/d8c7275c-7c6a-4901-9199-2addbebdb4c2)
+
+## Webpage to read, create, update and delete Faces from the faces table.
+
+![faces](https://github.com/Blondie-TheManWithNoName/NPCS/assets/58909117/a65f99f8-5b1b-4781-874f-2464d12bf1e8)
+
+## Webpage to read, create, update and delete NPCs from the npcs table.
+
+![npcs](https://github.com/Blondie-TheManWithNoName/NPCS/assets/58909117/011c3200-4c4b-44a6-91b7-7cdb4218a551)
+
+## Webpage to read, create, update and delete Regions from the regions table.
+![regions](https://github.com/Blondie-TheManWithNoName/NPCS/assets/58909117/9dcc18e1-cba3-400d-8066-6fc73c9c9528)
+
+
+
+## Demonstration of operations read, create, update and delete executed on table regions:
+
+https://github.com/Blondie-TheManWithNoName/NPCS/assets/58909117/0eef4afa-50f6-4fca-8831-ff416c1d0afa
+
+
+
+
+
